@@ -1,0 +1,80 @@
+<script>
+   var homeDirectory = [];
+  var resultHtml = "";
+  var underResult = "";
+  var moreUnderResult = "";
+
+  // Ana listedeki id'leri homeDirectory dizisine aktar
+  for (var i = 0; i < dataArray.length; i++) {
+    if (dataArray[i].parent_id === null) {
+      homeDirectory.push(dataArray[i].id);
+      resultHtml +=
+        "<button class='" +
+        dataArray[i].id +
+        "'>" +
+        dataArray[i].name +
+        "</button>";
+    }
+  }
+  $("#result").html(resultHtml);
+
+  // Ana listedeki her bir öğe için alt liste oluştur
+  var resaultButton = document.querySelectorAll("#result > button");
+
+  // tıklanılan butonun altındaki butonları getirir
+  for (var j = 0; j < resaultButton.length; j++) {
+    (function (index) {
+      resaultButton[index].addEventListener("click", function () {
+        resaultButton[index].classList.toggle("clicked");
+
+        var selectedItem = dataArray.find(
+          (item) => item.id === parseInt(resaultButton[index].className)
+        );
+        if (selectedItem && selectedItem.parent_id === null) {
+          underResult = "";
+          for (var k = 0; k < dataArray.length; k++) {
+            if (dataArray[k].parent_id === selectedItem.id) {
+              underResult +=
+                "<button class='" +
+                dataArray[k].id +
+                "'>" +
+                dataArray[k].name +
+                "</button>";
+            }
+          }
+          $("#underResult").html(underResult);
+        }
+      });
+    })(j);
+  }
+
+  var underResultButton = document.querySelectorAll("#underResult > button");
+  console.log(underResultButton);
+  // tıklanılan altındaki butonun altındaki butonları getirir
+  for (var j = 0; j < underResultButton.length; j++) {
+    
+    (function (index) {
+      underResultButton[index].addEventListener("click", function () {
+        underResultButton[index].classList.toggle("clicked");
+       
+        var selectedItem = dataArray.find(
+          (item) => item.id === parseInt(underResultButton[index].className)
+        );
+        if (selectedItem && selectedItem.parent_id === null) {
+          moreUnderResult = "";
+          for (var k = 0; k < dataArray.length; k++) {
+            if (dataArray[k].parent_id === selectedItem.id) {
+              moreUnderResult +=
+                "<button class='" +
+                dataArray[k].id +
+                "'>" +
+                dataArray[k].name +
+                "</button>";
+            }
+          }
+          $("#moreUnderResult").html(underResult);
+        }
+      });
+    })(j);
+  }
+</script>
